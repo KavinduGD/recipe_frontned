@@ -14,7 +14,7 @@ function Home() {
   const handleDelete = async (id) => {
     try {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this recipe?"
+        "Are you sure you want to delete this recipe?",
       );
 
       if (confirmDelete) {
@@ -42,7 +42,7 @@ function Home() {
     <div className="mt-[20px] ">
       <div className="flex justify-between items-center px-[5px] sm:px-[0] mb-[10px]">
         <p className="font-crimsonPro  text-[23px] font-medium sm:text-[40px]">
-          Manage Your Recipes Kavindu
+          Manage Your Recipes
         </p>
         <button
           className="px-[20px] py-[10px] bg-[#373538] font-crimsonPro text-white "

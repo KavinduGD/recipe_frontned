@@ -2,13 +2,13 @@ import React from "react";
 import logo from "../images/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdRefresh } from "react-icons/io";
+import { useAuthContext } from "@asgardeo/auth-react";
 const activeStyle = "flex justify-center border-b-[3px] px-2 border-[#3d2d30]";
 const inactiveStyle = "flex justify-center";
 
 function Navbar() {
-  const handleRefresh = () => {
-    window.location.reload(); // Refreshes the page
-  };
+  const { state, signIn, signOut } = useAuthContext();
+
   return (
     <div>
       <div className="flex  justify-between items-center flex-col sm:flex-row border-b-[1px]  pb-[5px] gap-[10px] sm:gap-[0]">
@@ -37,30 +37,42 @@ function Navbar() {
             >
               Home
             </NavLink>
-            <NavLink
-              to="/add-recipe"
-              className={({ isActive }) =>
-                isActive ? activeStyle : inactiveStyle
-              }
-            >
-              Add Recipe
-            </NavLink>
-            <NavLink
-              to="/manage"
-              className={({ isActive }) =>
-                isActive ? activeStyle : inactiveStyle
-              }
-            >
-              Manage
-            </NavLink>
-            <button
-              className="flex items-center gap-2 justify-center  hover:shadow-lg transition-all duration-300 ease-in-out px-2 py-1 bg-[#373538] text-white text-[18px] sm:text-[16px] rounded-md
-            "
-              onClick={handleRefresh}
-            >
-              <IoMdRefresh />
-              <p>Refresh</p>
-            </button>
+            {state?.isAuthenticated && (
+              <>
+                <NavLink
+                  to="/add-recipe"
+                  className={({ isActive }) =>
+                    isActive ? activeStyle : inactiveStyle
+                  }
+                >
+                  Add Recipe
+                </NavLink>
+                <NavLink
+                  to="/manage"
+                  className={({ isActive }) =>
+                    isActive ? activeStyle : inactiveStyle
+                  }
+                >
+                  Manage
+                </NavLink>
+              </>
+            )}
+
+            {state?.isAuthenticated ? (
+              <button
+                className="flex items-center gap-2 justify-center hover:shadow-lg transition-all duration-300 ease-in-out px-4 py-1 bg-[#e02424] text-white text-[18px] sm:text-[16px] rounded-md"
+                onClick={() => signOut()}
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                className="flex items-center gap-2 justify-center hover:shadow-lg transition-all duration-300 ease-in-out px-4 py-1 bg-[#046c4e] text-white text-[18px] sm:text-[16px] rounded-md"
+                onClick={() => signIn()}
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       </div>
